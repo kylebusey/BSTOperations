@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class GUI extends JFrame {
 
@@ -35,6 +37,7 @@ public class GUI extends JFrame {
         inputLine.add(enterTree);
 
         treeEntry = new JTextField();
+        treeEntry.setPreferredSize(new Dimension(100, 20));
         inputLine.add(treeEntry);
 
         //add input line to the top of the GUI
@@ -66,11 +69,22 @@ public class GUI extends JFrame {
         outputLine.add(outputLabel);
 
         output = new JTextArea();
+        output.setEditable(false);
+        output.setPreferredSize(new Dimension(100, 20));
         outputLine.add(output);
 
         this.add(outputLine, BorderLayout.SOUTH);
 
         this.setVisible(true);
+
+        makeTree.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                BinaryTree binaryTree = new BinaryTree(treeEntry.getText());
+
+            }
+        });
+
 
     }
 
