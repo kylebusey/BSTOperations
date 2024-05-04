@@ -61,7 +61,7 @@ public class GUI extends JFrame {
 
         this.add(buttonLine, BorderLayout.CENTER);
 
-
+        //Start of bottom output line
         outputLabel = new JLabel("Output:");
         outputLine.add(outputLabel);
 
@@ -71,9 +71,6 @@ public class GUI extends JFrame {
         this.add(outputLine, BorderLayout.SOUTH);
 
         this.setVisible(true);
-
-
-
 
     }
 
