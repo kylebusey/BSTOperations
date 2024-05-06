@@ -3,6 +3,7 @@ import java.util.Stack;
 public class BinaryTree {
 
     private Node root = null;
+    private int i = 0; //index
 
     static class Node<T> {
         private T value;
@@ -17,13 +18,45 @@ public class BinaryTree {
 
     }
 
-    public BinaryTree(String str) {
+    public BinaryTree(String str) throws InvalidTreeSyntax {
         createTrees(str);
     }
 
-    private void createTrees(String str) {
+    private void createTrees(String str) throws InvalidTreeSyntax {
     // (A(G(j)(1))(z(5)))
-       root = insertNode(str);
+       root = buildTree(root, str.toCharArray());
+    }
+
+    private Node buildTree(Node node, char[] c) throws InvalidTreeSyntax {
+
+        // (A(G(j)(1))(z(5)))
+
+       if(c[i] != '(') {
+            throw new InvalidTreeSyntax("Must start tree with (");
+       } else {
+           i++;
+       }
+
+       if(c[i] == '(') {
+           throw new InvalidTreeSyntax("Double ( error");
+       } else {
+           node = new Node(c[i]);
+           i++;
+
+           if(c[i] == '(') {
+               node.left = buildTree(node.left, c);
+           } else if (c[i] == ')') {
+               i++;
+               return node;
+           }
+
+
+
+       }
+
+
+
+        return node;
     }
 
 
@@ -45,15 +78,26 @@ public class BinaryTree {
             } else if(c == '(' && charStack.peek() == '(') {
                 charStack.push(c);
                 orig = temp; //a
-                if (temp != null) {
+
+                if (temp.left == null) {
                     temp = temp.left;
+                } else {
+                    temp = temp.right;
                 }
+
                 index++;
 
             } else if(c == ')') {
                 charStack.pop();
-                temp = orig;
+
+                if(temp == orig) {
+                    temp = root;
+                } else {
+                    temp = orig;
+                }
+
                 index++;
+                continue;
             }
 
             if(charStack.peek() == '(') {

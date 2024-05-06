@@ -80,8 +80,11 @@ public class GUI extends JFrame {
         makeTree.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                BinaryTree binaryTree = new BinaryTree(treeEntry.getText());
-
+                try {
+                    BinaryTree binaryTree = new BinaryTree(treeEntry.getText());
+                } catch (InvalidTreeSyntax ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
 
