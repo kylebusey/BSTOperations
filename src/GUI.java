@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class GUI extends JFrame {
+    BinaryTree binaryTree;
 
     private JLabel enterTree;
     private JTextField treeEntry; //text entry
@@ -70,7 +71,7 @@ public class GUI extends JFrame {
 
         output = new JTextArea();
         output.setEditable(false);
-        output.setPreferredSize(new Dimension(100, 20));
+        output.setPreferredSize(new Dimension(200, 20));
         outputLine.add(output);
 
         this.add(outputLine, BorderLayout.SOUTH);
@@ -81,11 +82,15 @@ public class GUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    BinaryTree binaryTree = new BinaryTree(treeEntry.getText());
+                    binaryTree = new BinaryTree(treeEntry.getText());
                 } catch (InvalidTreeSyntax ex) {
                     throw new RuntimeException(ex);
                 }
             }
+        });
+
+        showInOrder.addActionListener(e -> {
+            output.append(binaryTree.inOrderTraversal());
         });
 
 

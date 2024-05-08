@@ -3,6 +3,7 @@ import java.util.Stack;
 public class BinaryTree {
 
     private Node root = null;
+    private String inOrder = "";
     private int i = 0; //index
 
     static class Node<T> {
@@ -19,13 +20,51 @@ public class BinaryTree {
     }
 
     public BinaryTree(String str) throws InvalidTreeSyntax {
-        createTrees(str);
+        root = buildTree(root, str.replaceAll(" ", "").toCharArray());
     }
 
-    private void createTrees(String str) throws InvalidTreeSyntax {
-    // (A(G(j)(1))(z(5)))
-       root = buildTree(root, str.toCharArray());
+    public String inOrderTraversal() {
+
+        if(root != null) {
+            inOrder = buildInOrderString(root);
+        }
+
+        return inOrder;
     }
+
+    private String buildInOrderString(Node node) {
+
+        if(node.left != null) {
+            node = traverse(node);
+        }
+
+        return inOrder;
+    }
+
+
+
+    private Node traverse(Node node) {
+        if(node.left == null) {
+            inOrder = inOrder + "( " + node.value + " )";
+            return node;
+        } else {
+            inOrder = inOrder + "(";
+            traverse(node.left);
+
+            inOrder = inOrder + " "+ node.value + " ";
+
+            if(node.right != null) {
+                traverse(node.right);
+            }
+
+            inOrder = inOrder + ")";
+
+        }
+
+        return node;
+    }
+
+
 
     private Node buildTree(Node node, char[] c) throws InvalidTreeSyntax {
 
@@ -43,83 +82,35 @@ public class BinaryTree {
            node = new Node(c[i]);
            i++;
 
-           if(c[i] == '(') {
-               node.left = buildTree(node.left, c);
-           } else if (c[i] == ')') {
+           if (c[i] == ')') {
                i++;
                return node;
            }
 
+           if(c[i] != '(') {
+               throw new InvalidTreeSyntax("No ( to continue tree");
+           }  else {
+               node.left = buildTree(node.left, c);
 
+               if(c[i] == '(') {
+                   node.right = buildTree(node.right, c);
+               }
+           }
 
+           if(c[i] == ')') {
+               i++;
+           }
        }
-
-
 
         return node;
     }
 
 
-    private Node insertNode(String str) {
-
-        Stack<Character> charStack = new Stack<>();
-
-        Node temp = root;
-        Node orig = null;
-
-        int index = 0;
-
-        while(index < str.length()) {
-            char c = getCharacter(str, index);
-
-            if(c == '(' && charStack.isEmpty()) {
-                charStack.push(c);
-                index++;
-            } else if(c == '(' && charStack.peek() == '(') {
-                charStack.push(c);
-                orig = temp; //a
-
-                if (temp.left == null) {
-                    temp = temp.left;
-                } else {
-                    temp = temp.right;
-                }
-
-                index++;
-
-            } else if(c == ')') {
-                charStack.pop();
-
-                if(temp == orig) {
-                    temp = root;
-                } else {
-                    temp = orig;
-                }
-
-                index++;
-                continue;
-            }
-
-            if(charStack.peek() == '(') {
-                c = getCharacter(str, index);
-                Node newNode = new Node(c);
-
-                if(temp == null) {
-                    temp = newNode;
-                    index++;
-                }
+    private int getHeight(Node n) {
 
 
-            }
 
-        }
-
-
-        return temp;
-    }
-
-    private char getCharacter(String str, int index) {
-        return str.charAt(index);
+        return 0;
     }
 
 
