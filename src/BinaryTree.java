@@ -5,10 +5,7 @@ public class BinaryTree {
     private Node root = null;
     private String inOrder = "";
     private int i = 0; //index
-    private int height = 0;
-
-    
-
+    private int numOfNodes = 0;
 
     static class Node<T> {
         private T value;
@@ -50,7 +47,18 @@ public class BinaryTree {
     }
 
     private int countNodes(Node node) {
-        return 0;
+        if(node == null) {
+            return -1;
+        } else {
+            numOfNodes += 1;
+            if(node.left != null) {
+                countNodes(node.left);
+            }
+            if(node.right != null) {
+                countNodes(node.right);
+            }
+        }
+        return numOfNodes;
     }
 
     public boolean checkBalanced() {
@@ -77,6 +85,26 @@ public class BinaryTree {
         return false;
     }
 
+    public int getHeight() {
+        return getHeight(root);
+    }
+
+    private int getHeight(Node node) {
+
+        if(node == null) {
+            return -1;
+        } else {
+            int leftTree = getHeight(node.left);
+            int rightTree = getHeight(node.right);
+
+            if(leftTree > rightTree) {
+                return 1 + leftTree;
+            } else {
+                return 1 + rightTree;
+            }
+        }
+    }
+
     private Node traverse(Node node) {
         if(node.left == null) {
             inOrder = inOrder + "( " + node.value + " )";
@@ -96,8 +124,6 @@ public class BinaryTree {
 
         return node;
     }
-
-
 
     private Node buildTree(Node node, char[] c) throws InvalidTreeSyntax {
 
@@ -140,16 +166,6 @@ public class BinaryTree {
 
 
 
-    public int getHeight() {
-        return getHeight(root);
-    }
-
-    private int getHeight(Node n) {
-
-
-
-        return 0;
-    }
 
 
 
