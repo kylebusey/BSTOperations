@@ -1,10 +1,14 @@
-import java.util.Stack;
+
 
 public class BinaryTree {
 
     private Node root = null;
     private String inOrder = "";
     private int i = 0; //index
+    private int height = 0;
+
+    
+
 
     static class Node<T> {
         private T value;
@@ -35,13 +39,43 @@ public class BinaryTree {
     private String buildInOrderString(Node node) {
 
         if(node.left != null) {
-            node = traverse(node);
+            traverse(node);
         }
 
         return inOrder;
     }
 
+    public int countNodes() {
+        return countNodes(root);
+    }
 
+    private int countNodes(Node node) {
+        return 0;
+    }
+
+    public boolean checkBalanced() {
+        return checkBalanced(root);
+    }
+    
+    private boolean checkBalanced(Node node) {
+        return false;
+    }
+
+    public boolean checkFull() {
+        return checkFull(root);
+    }
+
+    private boolean checkFull(Node node) {
+        return false;
+    }
+
+    public boolean checkProper() {
+        return checkProper(root);
+    }
+
+    private boolean checkProper(Node node) {
+        return false;
+    }
 
     private Node traverse(Node node) {
         if(node.left == null) {
@@ -58,7 +92,6 @@ public class BinaryTree {
             }
 
             inOrder = inOrder + ")";
-
         }
 
         return node;
@@ -105,6 +138,11 @@ public class BinaryTree {
         return node;
     }
 
+
+
+    public int getHeight() {
+        return getHeight(root);
+    }
 
     private int getHeight(Node n) {
 

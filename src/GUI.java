@@ -26,8 +26,9 @@ public class GUI extends JFrame {
 
     public GUI() {
 
-        this.setSize(700, 200);
+        this.setSize(750, 200);
         this.setTitle("Binary Tree Categorizer");
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         //Panels for organizing each section of the GUI
         inputLine = new JPanel();
@@ -38,7 +39,7 @@ public class GUI extends JFrame {
         inputLine.add(enterTree);
 
         treeEntry = new JTextField();
-        treeEntry.setPreferredSize(new Dimension(100, 20));
+        treeEntry.setPreferredSize(new Dimension(120, 20));
         inputLine.add(treeEntry);
 
         //add input line to the top of the GUI
@@ -53,6 +54,9 @@ public class GUI extends JFrame {
 
         isProper = new JButton("Is Proper?");
         buttonLine.add(isProper);
+
+        isFull = new JButton("Is Full?");
+        buttonLine.add(isFull);
 
         height = new JButton("Height");
         buttonLine.add(height);
@@ -78,26 +82,50 @@ public class GUI extends JFrame {
 
         this.setVisible(true);
 
-        makeTree.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    binaryTree = new BinaryTree(treeEntry.getText());
-                } catch (InvalidTreeSyntax ex) {
-                    throw new RuntimeException(ex);
-                }
+        makeTree.addActionListener(e -> {
+            try {
+                binaryTree = new BinaryTree(treeEntry.getText());
+                output.setText("Binary Tree Created");
+
+            } catch (InvalidTreeSyntax ex) {
+                throw new RuntimeException(ex);
             }
         });
 
+        //In Order Button to build inOrder String
         showInOrder.addActionListener(e -> {
-            output.append(binaryTree.inOrderTraversal());
+            output.setText(binaryTree.inOrderTraversal());
         });
 
+        //Height of Tree
+        height.addActionListener(e -> {
+            output.setText(String.valueOf(binaryTree.getHeight()));
+        });
+
+        //Number of nodes in tree
+        showNodes.addActionListener(e -> {
+            output.setText(String.valueOf(binaryTree.countNodes()));
+        });
+
+        //Check if tree is balanced
+        isBalanced.addActionListener(e -> {
+            output.setText(String.valueOf(binaryTree.checkBalanced()));
+        });
+
+        //Check if tree is full
+        isFull.addActionListener(e -> {
+            output.setText(String.valueOf(binaryTree.checkFull()));
+        });
+
+        //Check if tree is proper
+        isProper.addActionListener(e -> {
+            output.setText(String.valueOf(binaryTree.checkProper()));
+        });
 
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new GUI());
+        SwingUtilities.invokeLater(GUI::new);
     }
 
 }
